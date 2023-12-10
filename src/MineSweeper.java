@@ -18,6 +18,7 @@ public class MineSweeper {
     Random random = new Random();
     char star = '*';
 
+    // oyun alanı oluşturma metodu, gameplay fonksiyonu içerisinden kullanılmaktadır.
     void createGameArea() {
         int starLimit = rowNumber * columnNumber / 4; // Eleman sayısının çeyreği kadar limit belirle
         int starCount = 0;
@@ -25,7 +26,7 @@ public class MineSweeper {
         for (int i = 0; i < rowNumber; i++) {
             for (int j = 0; j < columnNumber; j++) {
                 // Eleman sayısının çeyreği kadar star ataması yap
-                if (starCount < starLimit && random.nextDouble() < 0.3) {
+                if (starCount < starLimit && random.nextDouble() < 0.5) {
                     mineField[i][j] = star;
                     starCount++;
                 } else {
@@ -36,6 +37,8 @@ public class MineSweeper {
             System.out.println();
         }
     }
+
+    //Kod tekrarını önlemek için yazılmış bir 'yazdırma' metodudur.
     void printMineField(char mineField[][]){
         for (int i = 0; i < rowNumber; i++) {
             for (int j = 0; j < columnNumber; j++) {
@@ -45,6 +48,7 @@ public class MineSweeper {
         }
     }
 
+    // Oyunun tüm oynanışının içerisinden yürütüldüğü metoddur.
     void gameplay() {
         Scanner input = new Scanner(System.in);
         createGameArea();
@@ -54,7 +58,7 @@ public class MineSweeper {
                 tempMineField[i][j] = '-';
             }
         }
-
+        int inputCountControl = 0;
         while (true) {
             System.out.print("Satır sayısını giriniz : ");
             int incomingRowValue = input.nextInt();
@@ -63,14 +67,18 @@ public class MineSweeper {
             if (mineField[incomingRowValue][incomingColumnValue] == '*') {
                 System.out.println("!!!GAME OVER!!!");
                 break;
-            }else {
+            } else if ((rowNumber * columnNumber -6) == inputCountControl) {
+                System.out.println("!!!WON!!!");
+            } else {
                 tempMineField[incomingRowValue][incomingColumnValue] = 'x';
             }
             printMineField(tempMineField);
+            inputCountControl++;
         }
 
     }
 
+    //oyunu çalıştırmak için kullanılan metoddur.
     void playGame() {
         gameplay();
     }
